@@ -28,3 +28,7 @@ Keep getting errors related to this
 ## Profiles must be explicitly configured
 
 No support for configuring profiles via standard AWS SDK commands
+
+## Changes don't trigger an update with the agent
+
+I changed tags on both things, and it didn't update anything

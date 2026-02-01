@@ -20,7 +20,7 @@ forma {
         label = "basic-acct-2"
         config = new aws.Config {
             region = "us-east-1"
-            profile = "sam-linux"            
+            profile = "sam-linux"
         }
     }
 
