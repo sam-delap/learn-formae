@@ -1,0 +1,43 @@
+amends "@formae/forma.pkl"
+import "@formae/formae.pkl"
+import "@aws/aws.pkl"
+import "@aws/ec2/vpc.pkl"
+import "@aws/ec2/subnet.pkl"
+
+description {
+    text = "This forma deploys a basic VPC and some subnets for testing"
+    confirm = false
+}
+
+forma {
+    // Every forma needs a stack, for some reason
+    new formae.Stack {
+        label = "network"
+        description = "My network"
+    }
+
+    new formae.Target {
+        label = "basic-acct-2"
+        config = new aws.Config {
+            region = "us-east-1"
+            profile = "sam-linux"            
+        }
+    }
+
+    // Type definitions/schemas are still changing pretty often
+    local myVpc = new vpc.VPC {
+        label = "test-vpc"
+        cidrBlock = "172.16.0.0/16"
+    }
+
+    // If you use local, you need to separately instantiate the resource for it to be instantiated
+    // this is probably what enables the "we don't use resources that aren't needed" pattern
+    myVpc
+
+    new subnet.Subnet {
+        label = "test-subnet"
+        vpcId = myVpc.res.vpcId
+        cidrBlock = "172.16.0.0/18"
+        availabilityZone = "us-east-1a"
+    }
+}
